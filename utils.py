@@ -31,3 +31,19 @@ def compute_cluster_mapping(individual):
     for node, cluster in enumerate(individual):
         cluster_mapping[cluster].add(node)
     return cluster_mapping
+
+
+def find_common_clusters(ind1, ind2):
+    """Returns a dictionary where keys = clusters and values = set of nodes in that cluster
+    so that the nodes in the cluster are the same in both individuals"""
+
+    common_cluster_ids = set(ind1) & set(ind2)
+
+    common_clusters = defaultdict(set)
+    for cluster_id in common_cluster_ids:
+        nodes_a = ind1.cluster_mapping[cluster_id]
+        nodes_b = ind2.cluster_mapping[cluster_id]
+        if nodes_a == nodes_b:
+            common_clusters[cluster_id] = nodes_a
+
+    return common_clusters

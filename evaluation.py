@@ -9,7 +9,7 @@ def evaluate(individual):
     # Objective Function is the number of modifications (+ or -) to the input graph
     # Complexity is O(n^2) where n is the number of nodes
 
-    individual.cluster_mapping = compute_cluster_mapping(individual)
+    #individual.cluster_mapping = compute_cluster_mapping(individual)
     graph = individual.graph
 
     added_edges = 0
