@@ -1,8 +1,6 @@
 # My ignore directives
 .vscode/
 
-input/
-output/
 sol_exact/
 generators/
 outputs/
