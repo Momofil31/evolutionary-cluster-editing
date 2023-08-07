@@ -105,8 +105,12 @@ def main(cfg: DictConfig):
     input_files = sorted(os.listdir(cfg.data.data_dir))
     for input_file in input_files:
         log.info("Instantiating Weights and Biases...")
+        cfg.logger.wandb["group"] = "local_search"
         logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
-        logger.experiment.name = input_file.replace(".txt", "")
+        logger.experiment.name = "ev_" + input_file.replace(".txt", "")
+
+        if cfg.evolution.enable_local_search:
+            logger.experiment.group = "evolution_ls"
 
         stats, object_dict = run(
             cfg, input_file=input_file, bounds_file=input_file, logger=logger

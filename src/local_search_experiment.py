@@ -10,6 +10,7 @@ import networkx as nx
 import pandas as pd
 from pathlib import Path
 import matplotlib.pyplot as plt
+from lightning.pytorch.loggers import Logger
 
 rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
@@ -45,7 +46,7 @@ def run(
 
     log.info(f"Instantiating <{cfg.local_search._target_}>")
     local_search_module: LocalSearchModule = hydra.utils.instantiate(
-        cfg.local_search, graph_module=graph_module, mutation_cfg=cfg.mutation
+        cfg.local_search, graph_module=graph_module, mutation_cfg=cfg.mutation, logger=logger
     )
 
     ind = local_search_module.initialize_individual()
@@ -77,16 +78,17 @@ def run(
         "cfg": cfg,
         "graph_module": graph_module,
         "local_search_module": local_search_module,
+        "logger": logger,
     }
 
     if logger:
         log.info("Logging hyperparameters!")
         log_hyperparameters(object_dict)
 
-        logger.experiment.run.summary["best_fitness"] = best_ind.fitness.values[0]
-        logger.experiment.run.summary["iter"] = best_ind_stats[0]
-        logger.experiment.run.summary["time_elapsed"] = best_ind_stats[2]
-        logger.experiment.run.summary["num_clusters"] = len(set(best_ind))
+        logger.experiment.summary["best_fitness"] = best_ind.fitness.values[0]
+        logger.experiment.summary["iter"] = best_ind_stats[0]
+        logger.experiment.summary["time_elapsed"] = best_ind_stats[2]
+        logger.experiment.summary["num_clusters"] = len(set(best_ind))
 
     return local_search_module.logbook, object_dict
 
@@ -101,10 +103,12 @@ def main(cfg: DictConfig):
     input_files = sorted(os.listdir(cfg.data.data_dir))
     for input_file in input_files:
         log.info("Instantiating Weights and Biases...")
+        cfg.logger.wandb["group"] = "local_search"
         logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
-        logger.experiment.name = input_file.replace(".txt", "")
+        logger.experiment.name = "ls_" + input_file.replace(".txt", "")
 
-        stats, object_dict = run(cfg, input_file=input_file)
+        log.info(f"Running experiment on {input_file}")
+        stats, object_dict = run(cfg, input_file=input_file, bounds_file=input_file, logger=logger)
 
         # Let's create an empty DataFrame
         df = pd.DataFrame()
@@ -142,7 +146,7 @@ def main(cfg: DictConfig):
         # For visualization purposes fitness needs to be normalized using the computed bounds
         bounds_dir = Path(cfg.paths.data_dir, "bounds")
         # load the corresponding bounds file for the input file
-        bounds_file = Path(bounds_dir, "output" + input_file.replace("input", ""))
+        bounds_file = Path(bounds_dir, input_file)
         with open(bounds_file) as f:
             l_bound, u_bound = [int(x) for x in f.readline().split()]
 

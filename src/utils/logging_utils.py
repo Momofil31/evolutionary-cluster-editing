@@ -28,9 +28,11 @@ def log_hyperparameters(object_dict: Dict[str, Any]) -> None:
 
 
     hparams["data"] = cfg["data"]
-    hparams["graph_module"] = object_dict["graph_module"]
-    hparams["evolution_module"] = object_dict["evolution_module"]
-    
+    hparams["evolution"] = cfg.get("evolution")
+    hparams["mutation"] = cfg.get("mutation")
+    hparams["crossover"] = cfg.get("crossover")
+    hparams["selection"] = cfg.get("selection")
+    hparams["local_search"] = cfg.get("local_search")
 
     hparams["task_name"] = cfg.get("task_name")
     hparams["tags"] = cfg.get("tags")
