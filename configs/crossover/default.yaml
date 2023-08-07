@@ -1,0 +1,4 @@
+crossover_pb: 0.5 # probability of crossover
+
+cxCommonCluster:
+  indpb: 0.5 # probability of choosing from parent 1 or parent 2 for non shared cluster assignments

@@ -1,0 +1,4 @@
+local_search_pb: 0.5
+
+label_propagation_subset: 0.1 # fraction of nodes to be used for label propagation
+clique_removal_subset: 0.1 # fraction of clusters to be used for clique removal

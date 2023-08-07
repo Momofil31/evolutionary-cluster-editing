@@ -1,10 +1,14 @@
 import random
-from utils import (
+import rootutils
+
+rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
+
+
+from src.utils.graph import (
     compute_cost_of_isolating_node,
     compute_cost_of_adding_node_to_cluster,
     compute_cluster_mapping,
 )
-from evaluation import evaluate
 
 
 def reduce_clusters(individual):

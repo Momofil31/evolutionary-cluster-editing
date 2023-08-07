@@ -1,0 +1,3 @@
+_target_: src.modules.graph_module.GraphModule
+data_dir: ${paths.data_dir}/input
+bounds_dir: ${paths.data_dir}/bounds

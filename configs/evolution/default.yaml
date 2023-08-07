@@ -1,0 +1,10 @@
+_target_: src.modules.evolution_module.EvolutionModule
+num_gens: 50
+pop_size: 100
+mu: 30
+max_clusters: 0.1 # float indicating the maximum number of clusters as a fraction of the number of nodes
+
+use_seed_individual: "none" # ["all", "cc", "one_cluster", "none"]
+verbose: True
+
+enable_local_search: False

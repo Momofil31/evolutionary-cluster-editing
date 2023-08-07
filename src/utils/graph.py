@@ -1,4 +1,11 @@
 from collections import defaultdict
+import rootutils
+
+rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
+
+from src.utils import pylogger
+
+log = pylogger.get_pylogger(__name__)
 
 
 def compute_cost_of_isolating_node(node, old_cluster, graph, cluster_mapping):

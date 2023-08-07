@@ -1,6 +1,3 @@
-from utils import compute_cluster_mapping
-
-
 # Define the Evaluation Function
 # Don't need to check feasibility because with this formulation, all individuals are always feasible by construction
 # I assume that a cluster is a clique since i compute the fitness based on the number of edges that need to be added or removed
@@ -9,7 +6,6 @@ def evaluate(individual):
     # Objective Function is the number of modifications (+ or -) to the input graph
     # Complexity is O(n^2) where n is the number of nodes
 
-    #individual.cluster_mapping = compute_cluster_mapping(individual)
     graph = individual.graph
 
     added_edges = 0

@@ -1,0 +1,10 @@
+mutation_pb: 0.5
+
+mutate_moveOrIsolateOrRemoveCliques:
+  # The sum of the following probabilities should be 1.0
+  movepb: 0.45
+  isolatepb: 0.1
+  removepb: 0.45
+
+  # Portion of the individuals to be mutated
+  subset_ratio: 0.25

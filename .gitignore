@@ -3,7 +3,9 @@
 
 input/
 output/
-
+sol_exact/
+generators/
+outputs/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,visualstudiocode

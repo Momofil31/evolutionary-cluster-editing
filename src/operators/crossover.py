@@ -1,6 +1,6 @@
 import random
 from deap import tools
-from utils import find_common_clusters
+from utils.graph import find_common_clusters
 
 
 def cxCommonCluster(ind1, ind2, toolbox, indpb=0.5):
