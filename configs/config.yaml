@@ -11,5 +11,7 @@ defaults:
 
 draw_graph: False
 
+input_file: null
+
 seed: 64
 tags: []

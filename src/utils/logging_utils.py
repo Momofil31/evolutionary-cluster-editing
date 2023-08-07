@@ -26,7 +26,7 @@ def log_hyperparameters(object_dict: Dict[str, Any]) -> None:
         log.warning("Logger not found! Skipping hyperparameter logging...")
         return
 
-
+    hparams["input_file"] = cfg.get("input_file")
     hparams["data"] = cfg["data"]
     hparams["evolution"] = cfg.get("evolution")
     hparams["mutation"] = cfg.get("mutation")
