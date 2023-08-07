@@ -1,4 +1,4 @@
 _target_: src.modules.local_search_module.LocalSearchModule
-num_iters: 50
+num_iters: 25
 mutation_pb: 0.5
 verbose: True
