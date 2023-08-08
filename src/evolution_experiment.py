@@ -108,7 +108,7 @@ def main(cfg: DictConfig):
         cfg.input_file = input_file.replace(".txt", "")
         cfg.logger.wandb["group"] = "evolution"
         if cfg.evolution.enable_local_search:
-            logger.wandb["group"] = "evolution_ls"
+            cfg.logger.wandb["group"] = "evolution_ls"
         logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
         logger.experiment.name = "ev_" + input_file.replace(".txt", "")
 
