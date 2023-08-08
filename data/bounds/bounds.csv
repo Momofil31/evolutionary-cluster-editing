@@ -1,0 +1,14 @@
+input_file,l_bound,u_bound
+3_cliques_tree,49,9263
+2_quasicliques,9883,122205
+5_cactus,868,15103
+11_sbm,75203,97058
+10_sbm,113469,143206
+12_sbm,96510,124521
+1_cliques_binarytree,299,5587
+9_sbm,219341,330079
+7_partition,33794,45862
+6_cactus,2012,33306
+0_cliques_ring,50,2239
+4_cliques_tree,49,248414
+8_partition,132126,176942
