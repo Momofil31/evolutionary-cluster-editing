@@ -101,16 +101,25 @@ def run(
 def main(cfg: DictConfig):
     print_config_tree(cfg)
 
-    # get list of txt files in data folder
-    input_files = sorted(os.listdir(cfg.data.data_dir))
+    if cfg.get("input_file"):
+        input_files = [cfg.input_file]
+    else:
+        # get list of txt files in data folder
+        input_files = sorted(os.listdir(cfg.data.data_dir))
+
     for input_file in input_files:
         log.info("Instantiating Weights and Biases...")
         cfg.input_file = input_file.replace(".txt", "")
-        cfg.logger.wandb["group"] = "evolution"
-        if cfg.evolution.enable_local_search:
-            cfg.logger.wandb["group"] = "evolution_ls"
-        logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
-        logger.experiment.name = "ev_" + input_file.replace(".txt", "")
+        logger = None
+        if cfg.get("logger"):
+            cfg.logger.wandb["group"] = "evolution"
+            if cfg.evolution.enable_local_search:
+                cfg.logger.wandb["group"] = "evolution_ls"
+            logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
+            if cfg.evolution.enable_local_search:
+                logger.experiment.name = "ev_ls_" + input_file.replace(".txt", "")
+            else:
+                logger.experiment.name = "ev_" + input_file.replace(".txt", "")
 
         stats, object_dict = run(
             cfg, input_file=input_file, bounds_file=input_file, logger=logger

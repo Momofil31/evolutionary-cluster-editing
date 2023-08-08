@@ -46,7 +46,10 @@ def run(
 
     log.info(f"Instantiating <{cfg.local_search._target_}>")
     local_search_module: LocalSearchModule = hydra.utils.instantiate(
-        cfg.local_search, graph_module=graph_module, mutation_cfg=cfg.mutation, logger=logger
+        cfg.local_search,
+        graph_module=graph_module,
+        mutation_cfg=cfg.mutation,
+        logger=logger,
     )
 
     ind = local_search_module.initialize_individual()
@@ -98,18 +101,25 @@ def run(
 )
 def main(cfg: DictConfig):
     print_config_tree(cfg)
+    if cfg.input_file:
+        input_files = [cfg.input_file]
+    else:
+        # get list of txt files in data folder
+        input_files = sorted(os.listdir(cfg.data.data_dir))
 
-    # get list of txt files in data folder
-    input_files = sorted(os.listdir(cfg.data.data_dir))
     for input_file in input_files:
         log.info("Instantiating Weights and Biases...")
         cfg.input_file = input_file.replace(".txt", "")
-        cfg.logger.wandb["group"] = "local_search"
-        logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
-        logger.experiment.name = "ls_" + input_file.replace(".txt", "")
+        logger = None
+        if cfg.logger:
+            cfg.logger.wandb["group"] = "local_search"
+            logger: List[Logger] = instantiate_loggers(cfg.logger)[0]
+            logger.experiment.name = "ls_" + input_file.replace(".txt", "")
 
         log.info(f"Running experiment on {input_file}")
-        stats, object_dict = run(cfg, input_file=input_file, bounds_file=input_file, logger=logger)
+        stats, object_dict = run(
+            cfg, input_file=input_file, bounds_file=input_file, logger=logger
+        )
 
         # Let's create an empty DataFrame
         df = pd.DataFrame()
