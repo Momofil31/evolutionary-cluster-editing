@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+    - override /mutation: default.yaml
+    - override /evolution: default.yaml
+
+mutation:
+  mutation_pb: 0.0
+
+evolution:
+  enable_local_search: True
+
